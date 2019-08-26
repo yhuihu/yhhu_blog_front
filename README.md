@@ -25,7 +25,7 @@ vue-cli + element-ui + mavon-editor + axios
 ```bash
 # 国内建议使用cnpm install
 npm install
-# run前可根据实际情况修改.env.development和.env.production中相关内容
+# run前可根据实际情况修改/utils/api.js
 npm run dev
 # 打包
 npm run build
