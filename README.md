@@ -1,21 +1,38 @@
 # yhhu_blog_front
 
-> A Vue.js project
+## 简介
 
-## Build Setup
+本博客是一个前后端分离的轻量级个人博客系统。
 
-``` bash
-# install dependencies
+本后台管理系统使用了[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)作为基础模板
+
+## 预览地址
+
+[blog.yhhu.xyz](http://blog.yhhu.xyz)
+
+## 技术栈
+
+vue-cli + element-ui + mavon-editor + axios
+
+## 传送门
+
+- [后端服务系统](https://github.com/yhuihu/blog-back)
+- [后台管理系统](https://github.com/yhuihu/yhhu_blog_admin)
+- [前台系统](https://github.com/yhuihu/yhhu_blog_front)
+
+## 构建和运行
+
+```bash
+# 国内建议使用cnpm install
 npm install
-
-# serve with hot reload at localhost:8080
+# run前可根据实际情况修改.env.development和.env.production中相关内容
 npm run dev
-
-# build for production with minification
+# 打包
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## BlahBlah
+
+如果本项目对您学习Vue或SpringBoot等有所帮助的话，请帮忙点颗⭐哦😁！
+
+如果您对本项目有什么意见或建议，也欢迎批评指正。
