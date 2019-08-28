@@ -4,7 +4,7 @@
     class="navbar navbar-expand-lg navbar-light fixed-top"
     style="background-color: rgb(255,255,255); border-bottom: 1px solid #e9e9e9; z-index: 999">
     <div class="container">
-      <a class="navbar-brand" href="#" style="color: #ea6f5a; font-weight: bold">Light Blog</a>
+      <a class="navbar-brand" href="#" style="color: #ea6f5a; font-weight: bold">Tiger Blog</a>
       <button class="navbar-toggler" style="outline: none" type="button" data-toggle="collapse" data-target="#navbarResponsive">
         <span class="navbar-toggler-icon"/>
       </button>
