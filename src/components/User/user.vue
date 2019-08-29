@@ -10,7 +10,6 @@
       }
     },
     created() {
-      var _this = this
       var userName=this.$route.query.name;
       var userId=this.$route.query.userId;
       var avatar=this.$route.query.avatar;
@@ -19,8 +18,8 @@
         name: userName,
         avatar: avatar
       };
-      console.log(readerInfo)
       Cookie.set('READER_INFO', readerInfo, {expires: 7});
+      this.$root.userId=readerInfo.id
       this.$router.push({ path: '/' })
     }
   }

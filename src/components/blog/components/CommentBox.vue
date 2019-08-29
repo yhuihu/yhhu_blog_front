@@ -96,7 +96,6 @@
       }
     },
     created() {
-      // Cookie.remove(this.cookieKey)
       this.info = {...Cookie.getJSON(this.cookieKey), content: '', replyCommentId: ''}
     },
 

@@ -12,6 +12,11 @@ export default new Router({
       name: '登录',
       hidden: true,
       component: () => import('@/components/User/Login')
+    },{
+      path: '/logOut',
+      name: '登出',
+      hidden: true,
+      component: () => import('@/components/User/logOut')
     }, {
       path: '/user',
       name: '存储用户信息',
@@ -22,8 +27,7 @@ export default new Router({
       name: '注册',
       hidden: true,
       component: () => import('@/components/User/Register')
-    }
-    , {
+    }, {
       path: '/home',
       name: '主页',
       hidden: true,

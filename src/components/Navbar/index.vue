@@ -1,11 +1,12 @@
 <template>
   <nav
-    ref = "nav"
+    ref="nav"
     class="navbar navbar-expand-lg navbar-light fixed-top"
     style="background-color: rgb(255,255,255); border-bottom: 1px solid #e9e9e9; z-index: 999">
     <div class="container">
       <a class="navbar-brand" href="#" style="color: #ea6f5a; font-weight: bold">Tiger Blog</a>
-      <button class="navbar-toggler" style="outline: none" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <button class="navbar-toggler" style="outline: none" type="button" data-toggle="collapse"
+              data-target="#navbarResponsive">
         <span class="navbar-toggler-icon"/>
       </button>
       <div id="navbarResponsive" class="collapse navbar-collapse">
@@ -15,6 +16,9 @@
           </li>
           <li :class="{active: currPage === 'about'}" class="nav-item">
             <router-link to="/about" class="nav-link">About</router-link>
+          </li>
+          <li class="nav-item" v-if="this.$root.userId>0">
+            <router-link to="/logOut" class="nav-link">LogOut</router-link>
           </li>
         </ul>
         <div id="search" class="input-group col-lg-3">
@@ -41,31 +45,37 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      keyword: ''
-    }
-  },
-  computed: {
-    currPage() {
-      return this.$root.state.currPage
-    }
-  },
-  methods: {
-    handleSearch() {
-      if (this.currPage !== 'home') this.$router.push('/home')
-      const state = this.$root.state.blogListState // 通过该变量防止先按关键字搜索后按关键词搜索，然后又按相同关键字搜索时页面不刷新问题
-      if (state !== 2 && state !== -2) { // 如果前面不是按关键字搜索的话
-        this.$root.state.keyword = this.keyword
-        this.$root.state.blogListState = 2
-      } else if (this.keyword !== this.$root.state.keyword) { // 如果前面是按关键字搜索的且现在关键字改变了，通过置反blogListState触发computed
-        this.$root.state.blogListState = -state
-        this.$root.state.keyword = this.keyword
+  import Cookie from 'js-cookie'
+
+  export default {
+    data() {
+      return {
+        keyword: '',
+        cookieKey: 'READER_INFO',
+      }
+    },
+    computed: {
+      currPage() {
+        return this.$root.state.currPage
+      }
+    },
+    created() {
+      this.$root.userId = Cookie.getJSON(this.cookieKey).id
+    },
+    methods: {
+      handleSearch() {
+        if (this.currPage !== 'home') this.$router.push('/home')
+        const state = this.$root.state.blogListState // 通过该变量防止先按关键字搜索后按关键词搜索，然后又按相同关键字搜索时页面不刷新问题
+        if (state !== 2 && state !== -2) { // 如果前面不是按关键字搜索的话
+          this.$root.state.keyword = this.keyword
+          this.$root.state.blogListState = 2
+        } else if (this.keyword !== this.$root.state.keyword) { // 如果前面是按关键字搜索的且现在关键字改变了，通过置反blogListState触发computed
+          this.$root.state.blogListState = -state
+          this.$root.state.keyword = this.keyword
+        }
       }
     }
   }
-}
 </script>
 
 <style scoped>
@@ -75,7 +85,7 @@ export default {
     border-radius: 5px;
   }
 
-  .active .nav-link{
+  .active .nav-link {
     color: #EA6F5A !important;
   }
 
