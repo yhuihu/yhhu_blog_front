@@ -11,7 +11,7 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import '@/assets/iconfont/iconfont.css'
 import '@/assets/styles/index.css'
 import 'font-awesome/css/font-awesome.min.css'
-import {postRequest} from "./utils/api";
+import { postRequest } from "./utils/api";
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
             localStorage.removeItem('token');
             next({
               path: '/login', // 将跳转的路由path作为参数，登录成功后跳转到该路由
-              query: {redirect: to.fullPath}
+              query: { redirect: to.fullPath }
             })
           }
         } else {
@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
       console.log("token不存在");
       next({
         path: '/login', // 将跳转的路由path作为参数，登录成功后跳转到该路由
-        query: {redirect: to.fullPath}
+        query: { redirect: to.fullPath }
       })
     }
   } else { // 如果不需要权限校验，直接进入路由界面
@@ -54,12 +54,12 @@ router.beforeEach((to, from, next) => {
 new Vue({
   el: '#app',
   router,
-  components: {App},
+  components: { App },
   data: { // only place where data is not a function
     state,
     adminUrl: 'http://admin.yhhu.xyz',
     ABOUT_ID: 1,
-    userId: ''
+    userId: 0
   },
   template: '<App/>'
 })
