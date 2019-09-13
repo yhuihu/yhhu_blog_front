@@ -19,88 +19,88 @@
       </div>
       <a class="reply"
          @click="reply(comment.id, comment.readerName)">回复</a>
-      <a class="reply" v-if="$root.userId===comment.readerId">删除</a>
+      <!--      <a class="reply" v-if="$root.userId===comment.readerId">删除</a>-->
     </div>
   </div>
 </template>
 
 <script>
-  import parseEmoji from '@/components/Emoji/emoji'
-  import {getRequest} from "@/utils/api";
+    import parseEmoji from '@/components/Emoji/emoji'
+    import {getRequest} from "@/utils/api";
 
-  export default {
-    props: {
-      blogId: {
-        type: Number,
-        default: 0
-      }
-    },
-    data() {
-      return {
-        page: 1,
-        size: 5,
-        comments: [],
-        loading: false,
-        threshold: 100,
-        isLastPage: false
-      }
-    },
-    computed: {
-      add() {
-        return this.$root.state.comment.add
-      }
-    },
-    watch: {
-      add() {
-        this.reload()
-      }
-    },
-    created() {
-      this.addMore()
-    },
-    mounted() {
-      window.addEventListener('scroll', this.handleScroll, true)
-    },
-    methods: {
-      reply(id, name) {
-        this.$root.state.comment.name = name;
-        this.$root.state.comment.id = id
-      },
-      addMore() {
-        this.loading = true;
-        getRequest('/comment/list/blog', {
-          blogId: this.blogId,
-          page: this.page,
-          size: this.size
-        }).then(response => {
-          this.comments = this.comments.concat(response.data.data.list);
-          this.isLastPage = response.data.data.isLastPage;
-          this.loading = false
-        });
-      },
-      parseHtml(txt) {
-        txt = txt.replace(/\</g, '&lt;');
-        txt = txt.replace(/\>/g, '&gt;');
-        txt = txt.replace(/\n/g, '<br/>');
-        return parseEmoji(txt)
-      },
-      handleScroll() {
-        const scrollTop = document.documentElement.scrollTop
-        const scrollHeight = document.documentElement.scrollHeight
-        const clientHeight = document.documentElement.clientHeight
-        if (scrollHeight - scrollTop - clientHeight <= this.threshold && !this.loading && !this.isLastPage) {
-          this.addMore()
+    export default {
+        props: {
+            blogId: {
+                type: Number,
+                default: 0
+            }
+        },
+        data() {
+            return {
+                page: 1,
+                size: 5,
+                comments: [],
+                loading: false,
+                threshold: 100,
+                isLastPage: false
+            }
+        },
+        computed: {
+            add() {
+                return this.$root.state.comment.add
+            }
+        },
+        watch: {
+            add() {
+                this.reload()
+            }
+        },
+        created() {
+            this.addMore()
+        },
+        mounted() {
+            window.addEventListener('scroll', this.handleScroll, true)
+        },
+        methods: {
+            reply(id, name) {
+                this.$root.state.comment.name = name;
+                this.$root.state.comment.id = id
+            },
+            addMore() {
+                this.loading = true;
+                getRequest('/comment/list/blog', {
+                    blogId: this.blogId,
+                    page: this.page++,
+                    size: this.size
+                }).then(response => {
+                    this.comments = this.comments.concat(response.data.data.list);
+                    this.isLastPage = response.data.data.isLastPage;
+                    this.loading = false
+                });
+            },
+            parseHtml(txt) {
+                txt = txt.replace(/\</g, '&lt;');
+                txt = txt.replace(/\>/g, '&gt;');
+                txt = txt.replace(/\n/g, '<br/>');
+                return parseEmoji(txt)
+            },
+            handleScroll() {
+                const scrollTop = document.documentElement.scrollTop
+                const scrollHeight = document.documentElement.scrollHeight
+                const clientHeight = document.documentElement.clientHeight
+                if (scrollHeight - scrollTop - clientHeight <= this.threshold && !this.loading && !this.isLastPage) {
+                    this.addMore()
+                }
+            },
+            reload() {
+                this.comments = [];
+                this.loading = false;
+                this.isLastPage = false;
+                this.page = 1;
+                this.addMore()
+            }
         }
-      },
-      reload() {
-        this.comments = [];
-        this.loading = false;
-        this.isLastPage = false;
-        this.page = 1;
-        this.addMore()
-      }
     }
-  }
 </script>
 
 <style lang="scss" scoped>
