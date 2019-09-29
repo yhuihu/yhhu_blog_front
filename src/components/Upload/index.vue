@@ -1,17 +1,23 @@
 <template>
-  <el-upload :action="action"
-             :show-file-list="false"
-             :on-success="handleAvatarSuccess"
-             :before-upload="beforeAvatarUpload"
-             class="image-uploader, inner-item"
-             accept="image/jpeg, image/gif, image/png, image/bmp">
-    <img v-if="image"
-         :src="image"
-         :style="imageSize"
-         class="image">
-    <i v-else
-       :style="iconSize"
-       class="el-icon-plus image-uploader-icon" />
+  <el-upload
+    :action="action"
+    :show-file-list="false"
+    :on-success="handleAvatarSuccess"
+    :before-upload="beforeAvatarUpload"
+    class="image-uploader, inner-item"
+    accept="image/jpeg, image/gif, image/png, image/bmp"
+  >
+    <img
+      v-if="image"
+      :src="image"
+      :style="imageSize"
+      class="image"
+    >
+    <i
+      v-else
+      :style="iconSize"
+      class="el-icon-plus image-uploader-icon"
+    />
     (非必须)
   </el-upload>
 </template>
@@ -26,7 +32,7 @@ export default {
     image: String,
     height: String
   },
-  data () {
+  data() {
     return {
       mHeight: '180px',
       imageSize: '',
@@ -34,16 +40,16 @@ export default {
       action: '/upload'
     }
   },
-  created () {
+  created() {
     this.mHeight = this.height
     this.imageSize = 'height: ' + this.mHeight + ';'
     this.iconSize = 'height: ' + this.mHeight + ';width: ' + this.mHeight + ';line-height:' + this.mHeight
   },
   methods: {
-    handleAvatarSuccess (response) {
+    handleAvatarSuccess(response) {
       this.$emit('change', response.data.data.url)
     },
-    beforeAvatarUpload (file) {
+    beforeAvatarUpload(file) {
       const isLt4M = file.size / 1024 / 1024 < 4
 
       if (!isLt4M) {

@@ -7,15 +7,15 @@
 </template>
 
 <script>
-import { getRequest } from "@/utils/api";
+import { getRequest } from '@/utils/api'
 
 export default {
-  data () {
+  data() {
     return {
       profile: ''
     }
   },
-  created () {
+  created() {
     getRequest('/detail', {}).then(response => {
       this.profile = response.data.data.profile
     })

@@ -1,49 +1,82 @@
 <template>
-  <nav ref="nav"
-       class="navbar navbar-expand-lg navbar-light fixed-top"
-       style="background-color: rgb(255,255,255); border-bottom: 1px solid #e9e9e9; z-index: 999">
+  <nav
+    ref="nav"
+    class="navbar navbar-expand-lg navbar-light fixed-top"
+    style="background-color: rgb(255,255,255); border-bottom: 1px solid #e9e9e9; z-index: 999"
+  >
     <div class="container">
-      <a class="navbar-brand"
-         href="#"
-         style="color: #ea6f5a; font-weight: bold">Tiger Blog</a>
-      <button class="navbar-toggler"
-              style="outline: none"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarResponsive">
+      <a
+        class="navbar-brand"
+        href="#"
+        style="color: #ea6f5a; font-weight: bold"
+      >Tiger Blog</a>
+      <button
+        class="navbar-toggler"
+        style="outline: none"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarResponsive"
+      >
         <span class="navbar-toggler-icon" />
       </button>
-      <div id="navbarResponsive"
-           class="collapse navbar-collapse">
+      <div
+        id="navbarResponsive"
+        class="collapse navbar-collapse"
+      >
         <ul class="navbar-nav ml-auto text-center">
-          <li :class="{active: currPage === 'home'}"
-              class="nav-item">
-            <router-link to="/home"
-                         class="nav-link">Home</router-link>
+          <li
+            :class="{active: currPage === 'home'}"
+            class="nav-item"
+          >
+            <router-link
+              to="/home"
+              class="nav-link"
+            >主页</router-link>
           </li>
-          <li :class="{active: currPage === 'about'}"
-              class="nav-item">
-            <router-link to="/about"
-                         class="nav-link">About</router-link>
+          <li
+            :class="{active: currPage === 'about'}"
+            class="nav-item"
+          >
+            <router-link
+              to="/about"
+              class="nav-link"
+            >关于</router-link>
           </li>
-          <li class="nav-item"
-              v-if="this.$root.userId != 0">
-            <router-link to="/logOut"
-                         class="nav-link">LogOut</router-link>
+          <li
+            v-if="this.$root.userId !== 0"
+            class="nav-item"
+          >
+            <router-link
+              to="/logOut"
+              class="nav-link"
+            >注销</router-link>
+          </li><li
+            v-else
+            class="nav-item"
+          >
+            <div style="cursor: pointer;" class="nav-link" @click="clickLogin">
+              登录
+            </div>
           </li>
         </ul>
-        <div id="search"
-             class="input-group col-lg-3">
-          <input v-model="keyword"
-                 type="text"
-                 class="form-control"
-                 placeholder="Search for..."
-                 style="border-radius: 12px"
-                 @keyup.enter="handleSearch">
+        <div
+          id="search"
+          class="input-group col-lg-3"
+        >
+          <input
+            v-model="keyword"
+            type="text"
+            class="form-control"
+            placeholder="Search for..."
+            style="border-radius: 12px"
+            @keyup.enter="handleSearch"
+          >
           <span class="input-group-btn">
-            <a class="btn btn-secondary"
-               style="z-index: 100;position: absolute; top: 0; right: 15px; background-color: #ea6f5a; color: #ffffff; border-color: #ea6f5a; border-top-right-radius: 12px; border-bottom-right-radius: 12px; cursor: pointer"
-               @click="handleSearch">
+            <a
+              class="btn btn-secondary"
+              style="z-index: 100;position: absolute; top: 0; right: 15px; background-color: #ea6f5a; color: #ffffff; border-color: #ea6f5a; border-top-right-radius: 12px; border-bottom-right-radius: 12px; cursor: pointer"
+              @click="handleSearch"
+            >
               <i class="iconfont icon-search" />
             </a>
           </span>
@@ -58,23 +91,22 @@
 import Cookie from 'js-cookie'
 
 export default {
-  data () {
+  data() {
     return {
       keyword: '',
-      cookieKey: 'READER_INFO',
+      cookieKey: 'READER_INFO'
     }
   },
   computed: {
-    currPage () {
+    currPage() {
       return this.$root.state.currPage
     }
   },
-  created () {
-    if (Cookie.get(this.cookieKey))
-      this.$root.userId = Cookie.getJSON(this.cookieKey).id
+  created() {
+    if (Cookie.get(this.cookieKey)) { this.$root.userId = Cookie.getJSON(this.cookieKey).id }
   },
   methods: {
-    handleSearch () {
+    handleSearch() {
       if (this.currPage !== 'home') this.$router.push('/home')
       const state = this.$root.state.blogListState // 通过该变量防止先按关键字搜索后按关键词搜索，然后又按相同关键字搜索时页面不刷新问题
       if (state !== 2 && state !== -2) { // 如果前面不是按关键字搜索的话
@@ -84,6 +116,9 @@ export default {
         this.$root.state.blogListState = -state
         this.$root.state.keyword = this.keyword
       }
+    },
+    clickLogin() {
+      this.$root.loginFormVisible = true
     }
   }
 }

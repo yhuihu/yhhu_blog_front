@@ -1,28 +1,36 @@
 <template>
-  <ul ref="blogList"
-      class="blog-list">
-    <li v-for="blog in blogList"
-        :key="blog.id"
-        :class="{'have-img': blog.blogImage}">
+  <ul
+    ref="blogList"
+    class="blog-list"
+  >
+    <li
+      v-for="blog in blogList"
+      :key="blog.id"
+      :class="{'have-img': blog.blogImage}"
+    >
       <div class="content">
-        <router-link :to="'/blog/' + blog.id"
-                     class="title"
-                     target="_blank">
+        <router-link
+          :to="'/blog/' + blog.id"
+          class="title"
+          target="_blank"
+        >
           {{ blog.title }}
         </router-link>
         <p class="abstract">
           {{ getSummary(blog.summary) }}
         </p>
         <div class="meta">
-          <span><i class="iconfont icon-comment"/> {{ blog.commentCount }}</span>
-          <span><i class="iconfont icon-heart"/> {{ blog.likeCount }}</span>
-          <span><i class="iconfont icon-eye"/> {{ blog.clickCount }}</span>
+          <span><i class="iconfont icon-comment" /> {{ blog.commentCount }}</span>
+          <span><i class="iconfont icon-heart" /> {{ blog.likeCount }}</span>
+          <span><i class="iconfont icon-eye" /> {{ blog.clickCount }}</span>
         </div>
       </div>
-      <router-link v-if="blog.blogImage"
-                   :to="'/blog/' + blog.id"
-                   class="wrap-img"
-                   target="_blank">
+      <router-link
+        v-if="blog.blogImage"
+        :to="'/blog/' + blog.id"
+        class="wrap-img"
+        target="_blank"
+      >
         <img :src="blog.blogImage">
       </router-link>
     </li>
@@ -30,96 +38,94 @@
 </template>
 
 <script>
-  import {getRequest} from '@/utils/api'
+import { getRequest } from '@/utils/api'
 
-  export default {
-    data() {
-      return {
-        page: 1,
-        size: 10,
-        isLastPage: false,
-        blogList: [],
-        summaryMaxLength: 80,
-        threshold: 100,
-        loading: false
-      }
+export default {
+  data() {
+    return {
+      page: 1,
+      size: 10,
+      isLastPage: false,
+      blogList: [],
+      summaryMaxLength: 80,
+      threshold: 100,
+      loading: false
+    }
+  },
+  computed: {
+    tagId() {
+      return this.$root.state.tagId
     },
-    computed: {
-      tagId() {
-        return this.$root.state.tagId
-      },
-      keyword() {
-        return this.$root.state.keyword
-      },
-      state() {
-        return this.$root.state.blogListState
-      }
+    keyword() {
+      return this.$root.state.keyword
     },
-    watch: {
-      state() {
-        this.reset()
-        this.addMore()
-      }
-    },
-    created() {
-      // summary字数适应屏幕大小
-      this.summaryMaxLength = window.matchMedia('(max-width:768px)').matches ? 48 : 80
+    state() {
+      return this.$root.state.blogListState
+    }
+  },
+  watch: {
+    state() {
+      this.reset()
       this.addMore()
-    },
-    mounted() {
-      window.addEventListener('scroll', this.handleScroll, true)
-    },
-    methods: {
-      getSummary(summary) {
-        if (summary.length <= this.summaryMaxLength) {
-          return summary + '...'
-        } else {
-          return summary.substring(0, this.summaryMaxLength) + '...'
-        }
-      },
-      async addMore() {
-        if (this.isLastPage) return
-        this.loading = true
-        var data
-        if (this.state === 0 || ((this.state === 2 || this.state === -2) && !this.keyword)) {
-          data = (await getRequest('/Blog/list', {
-            page: this.page++,
-            size: this.size
-          })).data.data
-        } else if (this.state === 1 || this.state === -1) {
-          data = (await getRequest('/Blog/list/tag', {
-            tagId: this.$root.state.tagId,
-            page: this.page++,
-            size: this.size
-          })).data.data
-        } else {
-          data = (await getRequest('/Blog/search', {
-            keyword: this.$root.state.keyword,
-            page: this.page++,
-            size: this.size
-          })).data.data
-        }
-        this.isLastPage = data.isLastPage
-        this.blogList = this.blogList.concat(data.list)
-        this.loading = false
+    }
+  },
+  created() {
+    // summary字数适应屏幕大小
+    this.summaryMaxLength = window.matchMedia('(max-width:768px)').matches ? 48 : 80
+    this.addMore()
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll, true)
+  },
+  methods: {
+    getSummary(summary) {
+      if (summary.length <= this.summaryMaxLength) {
+        return summary + '...'
+      } else {
+        return summary.substring(0, this.summaryMaxLength) + '...'
       }
-      ,
-      reset() {
-        this.blogList = []
-        this.page = 1
-        this.isLastPage = false
+    },
+    async addMore() {
+      if (this.isLastPage) return
+      this.loading = true
+      var data
+      if (this.state === 0 || ((this.state === 2 || this.state === -2) && !this.keyword)) {
+        data = (await getRequest('/Blog/list', {
+          page: this.page++,
+          size: this.size
+        })).data.data
+      } else if (this.state === 1 || this.state === -1) {
+        data = (await getRequest('/Blog/list/tag', {
+          tagId: this.$root.state.tagId,
+          page: this.page++,
+          size: this.size
+        })).data.data
+      } else {
+        data = (await getRequest('/Blog/search', {
+          keyword: this.$root.state.keyword,
+          page: this.page++,
+          size: this.size
+        })).data.data
       }
-      ,
-      handleScroll() {
-        const scrollTop = document.documentElement.scrollTop
-        const scrollHeight = document.documentElement.scrollHeight
-        const clientHeight = document.documentElement.clientHeight
-        if (scrollHeight - scrollTop - clientHeight <= this.threshold && !this.loading) {
-          this.addMore()
-        }
+      this.isLastPage = data.isLastPage
+      this.blogList = this.blogList.concat(data.list)
+      this.loading = false
+    },
+    reset() {
+      this.blogList = []
+      this.page = 1
+      this.isLastPage = false
+    },
+    handleScroll() {
+      const scrollTop = document.documentElement.scrollTop
+      const scrollHeight = document.documentElement.scrollHeight
+      const clientHeight = document.documentElement.clientHeight
+      if (scrollHeight - scrollTop - clientHeight <= this.threshold && !this.loading) {
+        this.addMore()
       }
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

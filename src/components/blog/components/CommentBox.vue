@@ -1,201 +1,195 @@
 <template>
-  <div class="comment-box" v-loading="loading">
+  <div v-loading="loading" class="comment-box">
     <form v-if="info.name" class="new-comment">
-      <img class="avatar"
-           v-if="info.avatar"
-           :src="info.avatar">
-      <img class="avatar"
-           v-else
-           src="@/assets/imgs/add.png">
-      <textarea id="comment-text"
-                ref="commentText"
-                v-model="info.content"
-                placeholder="写下你的评论..."/>
+      <img
+        v-if="info.avatar"
+        class="avatar"
+        :src="info.avatar"
+      >
+      <img
+        v-else
+        class="avatar"
+        src="@/assets/imgs/add.png"
+      >
+      <textarea
+        id="comment-text"
+        ref="commentText"
+        v-model="info.content"
+        placeholder="写下你的评论..."
+      />
       <div class="write-function-block">
         <div v-if="!isMobile" class="emoji-modal-wrap" style="display: inline-block">
           <a class="emoji-icon" tabindex="0" @click="showEmoji = !showEmoji" @blur="showEmoji = false">
-            <i class="iconfont icon-smile" style="font-size: 1.5rem; color: #969696"/>
+            <i class="iconfont icon-smile" style="font-size: 1.5rem; color: #969696" />
             <div v-if="showEmoji" class="emoji-wrapper">
-              <emoji class="emoji" @select="selectEmoji"/>
+              <emoji class="emoji" @select="selectEmoji" />
             </div>
           </a>
         </div>
         <a ref="sendComment" class="btn btn-send" href="javascript:void(0)" @click="submitComment">发送</a>
       </div>
     </form>
-    <div class="sign-container" v-else>
-      <button type="button" @click="githubLogin" class="btn btn-sign">登录</button>
+    <div v-else class="sign-container">
+      <button type="button" class="btn btn-sign" @click="showLogin">登录</button>
       <span>后发表评论</span>
     </div>
   </div>
 </template>
 
 <script>
-  import Cookie from 'js-cookie'
-  import upload from '@/components/Upload'
-  import emoji from '@/components/Emoji'
-  import {postRequest} from "@/utils/api";
+import Cookie from 'js-cookie'
+import emoji from '@/components/Emoji'
+import { postRequest } from '@/utils/api'
 
-  export default {
-    components: {
-      lbUpload: upload,
-      emoji
-    },
-    props: {
-      blogId: {
-        type: Number,
-        default: 0
-      }
-    },
-    data() {
-      return {
-        info: {
-          id: '',
-          name: '',
-          content: '',
-          avatar: '',
-          replyCommentId: '',
-          email: ''
-        },
-        loading:false,
-        infoVisible: false,
-        rules: {
-          name: [
-            {required: true, message: '请输入昵称', trigger: 'blur'},
-            {min: 2, max: 10, message: '长度在2到10个字符', trigger: 'blur'}
-          ],
-          avatar: [
-            {required: false, message: '请选择头像（可选），不上传的话将使用随机头像', trigger: 'blur'}
-          ],
-          email: [
-            {required: false, message: '请填写邮箱（可选）', trigger: 'blur'},
-            {type: 'email', message: '请输入正确的邮箱！', trigger: ['blur', 'change']}
-          ]
-        },
-        showEmoji: false,
-        cookieKey: 'READER_INFO',
-        commentInterval: 30,
-        commentReady: true,
-        isMobile: false
-      }
-    },
-    computed: {
-      replyId() {
-        return this.$root.state.comment.id
+export default {
+  components: {
+    emoji
+  },
+  props: {
+    blogId: {
+      type: Number,
+      default: 0
+    }
+  },
+  data() {
+    return {
+      info: {
+        id: '',
+        name: '',
+        content: '',
+        avatar: '',
+        replyCommentId: '',
+        email: ''
       },
-      receiverName() {
-        return this.$root.state.comment.name
-      }
+      loading: false,
+      infoVisible: false,
+      showEmoji: false,
+      cookieKey: 'READER_INFO',
+      commentInterval: 30,
+      commentReady: true,
+      isMobile: false
+    }
+  },
+  computed: {
+    replyId() {
+      return this.$root.state.comment.id
     },
-    watch: {
-      replyId(replyId) {
-        if (replyId) {
-          this.info.content = `@${this.receiverName}: `
-          this.$refs.commentText.focus()
-        }
-      }
-    },
-    created() {
-      this.info = {...Cookie.getJSON(this.cookieKey), content: '', replyCommentId: ''}
-    },
-
-    mounted() {
-      this.isMobile = window.matchMedia('(max-width:768px)').matches
-    },
-    methods: {
-      githubLogin: function () {
-        this.loading = true;
-        postRequest('/oauth/login/github', this.registerForm).then(resp => {
-          if (resp.status === 200) {
-            //成功
-            if (resp.data.code === 2000) {
-              window.location.href = resp.data.data.redirectUrl
-            }
-          }
-        }, resp => {
-          this.loading = false;
-          this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
-        });
-        this.loading = true;
-      },
-      openModal() {
-        this.infoVisible = true;
-      },
-      submitComment() {
-        // this.$message({
-        //   message: '该功能正在完善当中.',
-        //   type: 'warning'
-        // });
-        if (!this.commentReady) return
-        if (this.validateComment()) {
-          this.loading=true;
-          this.info.blogId = this.blogId
-          if (this.replyId) this.info.replyCommentId = this.replyId
-          postRequest('/comment/add', this.info).then(response => {
-            this.$message({
-              message: '评论成功',
-              type: 'success'
-            })
-            this.resetCommentTime()
-            this.info.content = ''
-            this.$root.state.comment.id = ''
-            this.$root.state.comment.name = ''
-            this.$root.state.comment.add += 1
-          })
-          this.loading=false
-        }
-      },
-      validateComment() {
-        if (!this.info.name) {
-          this.openModal();
-          return false;
-        }
-
-        if (this.info.email && !/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(this.info.email)) {
-          this.$message({
-            message: '邮箱格式不正确！',
-            type: 'warning'
-          });
-          return false;
-        }
-
-        if (!this.info.content) {
-          this.$message({
-            message: '评论内容不能为空！',
-            type: 'warning'
-          });
-          return false
-        }
-
-        if (this.info.content.length > 60) {
-          this.$message({
-            message: '评论字数不能超过60！',
-            type: 'warning'
-          });
-          return false
-        }
-        return true
-      },
-      selectEmoji(code) {
-        console.log('select emoji');
-        this.info.content += code
-      },
-      resetCommentTime() {
-        this.commentReady = false
-        let timeLeft = this.commentInterval
-        const judge = setInterval(() => {
-          timeLeft--
-          if (timeLeft <= 0) {
-            this.commentReady = true
-            this.$refs.sendComment.innerHTML = '发送'
-            clearInterval(judge)
-          } else {
-            this.$refs.sendComment.innerHTML = timeLeft
-          }
-        }, 1000)
+    receiverName() {
+      return this.$root.state.comment.name
+    }
+  },
+  watch: {
+    replyId(replyId) {
+      if (replyId) {
+        this.info.content = `@${this.receiverName}: `
+        this.$refs.commentText.focus()
       }
     }
+  },
+  created() {
+    this.info = { ...Cookie.getJSON(this.cookieKey), content: '', replyCommentId: '' }
+  },
+
+  mounted() {
+    this.isMobile = window.matchMedia('(max-width:768px)').matches
+  },
+  methods: {
+    showLogin: function() {
+      this.$root.loginFormVisible = true
+    },
+    githubLogin: function() {
+      this.loading = true
+      postRequest('/oauth/login/github', {}).then(resp => {
+        if (resp.status === 200) {
+          // 成功
+          if (resp.data.code === 2000) {
+            window.location.href = resp.data.data.redirectUrl
+          }
+        }
+      }, resp => {
+        this.loading = false
+        this.$alert('找不到服务器⊙﹏⊙∥!', '失败!')
+      })
+      this.loading = true
+    },
+    openModal() {
+      this.infoVisible = true
+    },
+    submitComment() {
+      // this.$message({
+      //   message: '该功能正在完善当中.',
+      //   type: 'warning'
+      // });
+      if (!this.commentReady) return
+      if (this.validateComment()) {
+        this.loading = true
+        this.info.blogId = this.blogId
+        if (this.replyId) this.info.replyCommentId = this.replyId
+        postRequest('/comment/add', this.info).then(response => {
+          this.$message({
+            message: '评论成功',
+            type: 'success'
+          })
+          this.resetCommentTime()
+          this.info.content = ''
+          this.$root.state.comment.id = ''
+          this.$root.state.comment.name = ''
+          this.$root.state.comment.add += 1
+        })
+        this.loading = false
+      }
+    },
+    validateComment() {
+      if (!this.info.name) {
+        this.openModal()
+        return false
+      }
+
+      if (this.info.email && !/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(this.info.email)) {
+        this.$message({
+          message: '邮箱格式不正确！',
+          type: 'warning'
+        })
+        return false
+      }
+
+      if (!this.info.content) {
+        this.$message({
+          message: '评论内容不能为空！',
+          type: 'warning'
+        })
+        return false
+      }
+
+      if (this.info.content.length > 60) {
+        this.$message({
+          message: '评论字数不能超过60！',
+          type: 'warning'
+        })
+        return false
+      }
+      return true
+    },
+    selectEmoji(code) {
+      console.log('select emoji')
+      this.info.content += code
+    },
+    resetCommentTime() {
+      this.commentReady = false
+      let timeLeft = this.commentInterval
+      const judge = setInterval(() => {
+        timeLeft--
+        if (timeLeft <= 0) {
+          this.commentReady = true
+          this.$refs.sendComment.innerHTML = '发送'
+          clearInterval(judge)
+        } else {
+          this.$refs.sendComment.innerHTML = timeLeft
+        }
+      }, 1000)
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

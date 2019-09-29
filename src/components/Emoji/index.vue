@@ -5,23 +5,27 @@
         v-for="(pannel,index) in pannels"
         :key="pannel"
         :class="{'active': index === activeIndex}"
-        @click.stop="changeActive(index)">{{ pannel }}</li>
+        @click.stop="changeActive(index)"
+      >{{ pannel }}</li>
     </ul>
     <ul class="emoji-container">
       <li
         v-for="(emojiGroup, index) in emojis"
         v-if="index === activeIndex"
         :key="index"
-        style="padding: 0">
+        style="padding: 0"
+      >
         <span
           v-for="(emoji, index) in emojiGroup"
           :key="index"
           href="javascript:;"
-          @click="selectItem(emoji)">
+          @click="selectItem(emoji)"
+        >
           <span
             :title="emoji"
             :class="'sprite-' + getPureName(emoji)"
-            class="emoji-item"/>
+            class="emoji-item"
+          />
         </span>
       </li>
     </ul>

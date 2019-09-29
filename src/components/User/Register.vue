@@ -1,64 +1,90 @@
 <template>
   <div>
-    <el-form :model="registerForm"
-             :rules=registerRules
-             class="login-container"
-             label-position="left"
-             label-width="0px"
-             v-loading="loading">
+    <el-form
+      v-loading="loading"
+      :model="registerForm"
+      :rules="registerRules"
+      class="login-container"
+      label-position="left"
+      label-width="0px"
+    >
       <h3 class="login_title">注册用户</h3>
       <el-form-item prop="avatar">
-        <lb-upload v-model="registerForm.avatar"
-                   height="90px"
-                   class="inner-item" />
+        <lb-upload
+          v-model="registerForm.avatar"
+          height="90px"
+          class="inner-item"
+        />
       </el-form-item>
       <el-form-item prop="username">
-        <el-input type="text"
-                  v-model="registerForm.username"
-                  auto-complete="off"
-                  placeholder="账号"></el-input>
+        <el-input
+          v-model="registerForm.username"
+          type="text"
+          auto-complete="off"
+          placeholder="账号"
+        />
       </el-form-item>
       <el-form-item prop="password">
-        <el-input type="password"
-                  v-model="registerForm.password"
-                  auto-complete="off"
-                  placeholder="密码"></el-input>
+        <el-input
+          v-model="registerForm.password"
+          type="password"
+          auto-complete="off"
+          placeholder="密码"
+        />
       </el-form-item>
       <el-form-item prop="name">
-        <el-input type="text"
-                  v-model="registerForm.name"
-                  auto-complete="off"
-                  placeholder="名称"></el-input>
+        <el-input
+          v-model="registerForm.name"
+          type="text"
+          auto-complete="off"
+          placeholder="名称"
+        />
       </el-form-item>
       <el-form-item prop="email">
-        <el-input type="email"
-                  v-model="registerForm.email"
-                  auto-complete="off"
-                  placeholder="邮箱"></el-input>
+        <el-input
+          v-model="registerForm.email"
+          type="email"
+          auto-complete="off"
+          placeholder="邮箱"
+        />
       </el-form-item>
-      <el-form-item prop="emailCode"
-                    class="pr">
-        <el-input type="text"
-                  @keyup.native="handleInput"
-                  v-model="registerForm.emailCode"
-                  auto-complete="off"
-                  placeholder="验证码"></el-input>
-        <button type="button"
-                @click="getCode"
-                class="code-btn"
-                :disabled="!show">
+      <el-form-item
+        prop="emailCode"
+        class="pr"
+      >
+        <el-input
+          v-model="registerForm.emailCode"
+          type="text"
+          auto-complete="off"
+          placeholder="验证码"
+          @keyup.native="handleInput"
+        />
+        <button
+          type="button"
+          class="code-btn"
+          :disabled="!show"
+          @click="getCode"
+        >
           <span v-show="show">发送验证码</span>
-          <span v-show="!show"
-                class="count">{{count}} s</span>
+          <span
+            v-show="!show"
+            class="count"
+          >{{ count }} s</span>
         </button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click.native.prevent="doRegister">注册</el-button>
-        <el-button type="primary"
-                   @click.native.prevent="toLogin">返回登录</el-button>
-        <el-button type="primary"
-                   @click.native.prevent="githubLogin">github登录</el-button>
+        <el-button
+          type="primary"
+          @click.native.prevent="doRegister"
+        >注册</el-button>
+        <el-button
+          type="primary"
+          @click.native.prevent="toLogin"
+        >返回登录</el-button>
+        <el-button
+          type="primary"
+          @click.native.prevent="githubLogin"
+        >github登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -73,7 +99,7 @@ export default {
   components: {
     lbUpload: upload
   },
-  data () {
+  data() {
     return {
       registerRules: {
         username: [
@@ -110,128 +136,127 @@ export default {
       count: ''
     }
   },
-  mounted () {
+  mounted() {
 
   },
   methods: {
-    handleInput () {
+    handleInput() {
       this.registerForm.emailCode = this.registerForm.emailCode.replace(/[^\.\d]/g, '')
       this.registerForm.emailCode = this.registerForm.emailCode.replace('.', '')
     },
-    validateRegister () {
+    validateRegister() {
       if (this.registerForm.email && !/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(this.registerForm.email)) {
         this.$message({
           message: '邮箱格式不正确！',
           type: 'warning'
-        });
-        this.loading = false;
+        })
+        this.loading = false
         return false
       }
       if (this.registerForm.name === '') {
         this.$message({
           message: '名称不能为空！',
           type: 'warning'
-        });
-        this.loading = false;
+        })
+        this.loading = false
         return false
       }
       if (this.registerForm.username.length < 5) {
         this.$message({
           message: '用户名必须大于5位！',
           type: 'warning'
-        });
-        this.loading = false;
+        })
+        this.loading = false
         return false
       } else if (this.registerForm.username.length > 12) {
         this.$message({
           message: '用户名必须小于12位！',
           type: 'warning'
-        });
-        this.loading = false;
+        })
+        this.loading = false
         return false
       }
       if (this.registerForm.password.length < 6) {
         this.$message({
           message: '密码必须大于等于6位！',
           type: 'warning'
-        });
-        this.loading = false;
+        })
+        this.loading = false
         return false
       } else if (this.registerForm.password.length > 12) {
         this.$message({
           message: '密码必须小于12位！',
           type: 'warning'
-        });
+        })
         return false
       }
-      return true;
+      return true
     },
-    toLogin: function () {
+    toLogin: function() {
       this.$router.push({ path: '/Login' })
     },
-    doRegister: function () {
-      this.loading = true;
+    doRegister: function() {
+      this.loading = true
       if (this.validateRegister()) {
         postRequest('/doRegister', this.registerForm).then(resp => {
-          this.loading = false;
+          this.loading = false
           if (resp.status === 200) {
-            //成功
-            console.log(resp.data);
-            this.$alert(resp.data.message);
+            // 成功
+            console.log(resp.data)
+            this.$alert(resp.data.message)
             if (resp.data.code === 400) {
-              //进入400错误，不进行用户信息保存
+              // 进入400错误，不进行用户信息保存
             }
             if (resp.data.code === 200) {
-              //注册成功，跳转到登录
-              this.$router.push({ path: '/Login' });
+              // 注册成功，跳转到登录
+              this.$router.push({ path: '/Login' })
             }
-
           } else {
-            //失败
-            this.loading = false;
-            this.$alert('服务端出现错误，请稍后重试!');
+            // 失败
+            this.loading = false
+            this.$alert('服务端出现错误，请稍后重试!')
           }
         }, resp => {
-          this.loading = false;
-          this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
-        });
+          this.loading = false
+          this.$alert('找不到服务器⊙﹏⊙∥!', '失败!')
+        })
       }
-      this.loading = true;
+      this.loading = true
     },
-    githubLogin: function () {
-      this.loading = true;
+    githubLogin: function() {
+      this.loading = true
       postRequest('/oauth/login/github', this.registerForm).then(resp => {
         if (resp.status === 200) {
-          //成功
+          // 成功
           if (resp.data.code === 2000) {
             window.location.href = resp.data.data.redirectUrl
           }
         }
-        this.loading = false;
+        this.loading = false
       }, resp => {
-        this.loading = false;
-        this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
-      });
-      this.loading = true;
+        this.loading = false
+        this.$alert('找不到服务器⊙﹏⊙∥!', '失败!')
+      })
+      this.loading = true
     },
-    getCode: function () {
-      var _this = this;
-      _this.loading = true;
-      if (this.registerForm.email === "" && !/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(this.registerForm.email)) {
+    getCode: function() {
+      var _this = this
+      _this.loading = true
+      if (this.registerForm.email === '' && !/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(this.registerForm.email)) {
         this.$message({
           message: '邮箱格式不正确！',
           type: 'warning'
-        });
-        _this.loading = false;
+        })
+        _this.loading = false
         return false
       } else {
         postRequest('/getRegisterCode', {
           email: this.registerForm.email
         }).then(resp => {
-          _this.loading = false;
+          _this.loading = false
           if (resp.status === 200) {
-            //成功
-            _this.$alert(resp.data.message);
+            // 成功
+            _this.$alert(resp.data.message)
             if (resp.data.code === 400) {
 
             } else {
@@ -250,14 +275,14 @@ export default {
               }
             }
           } else {
-            //失败
-            _this.loading = false;
-            _this.$alert('服务端出现错误，请稍后重试!');
+            // 失败
+            _this.loading = false
+            _this.$alert('服务端出现错误，请稍后重试!')
           }
         }, resp => {
-          _this.loading = false;
-          _this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
-        });
+          _this.loading = false
+          _this.$alert('找不到服务器⊙﹏⊙∥!', '失败!')
+        })
       }
     }
   }

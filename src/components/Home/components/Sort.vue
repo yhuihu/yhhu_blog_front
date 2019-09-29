@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <div class="sidebar-title"><i class="iconfont icon-sort"/>&nbsp;点击排行</div>
+    <div class="sidebar-title"><i class="iconfont icon-sort" />&nbsp;点击排行</div>
     <ul class="ul-sort">
       <li v-for="n in total" :key="n">
         <span><i
@@ -11,7 +11,8 @@
             'color-white': n <= 3,
             'color-light': n > 3
           }"
-          class="badge">{{ n }}</i></span> &nbsp;&nbsp;
+          class="badge"
+        >{{ n }}</i></span> &nbsp;&nbsp;
         <router-link :to="'/blog/' + blogs[n - 1].id" target="_blank">{{ blogs[n - 1].title }}</router-link>
       </li>
     </ul>
@@ -19,32 +20,32 @@
 </template>
 
 <script>
-  import {getRequest} from "@/utils/api";
+import { getRequest } from '@/utils/api'
 
-  export default {
-    data() {
-      return {
-        blogs: [
-          {
-            id: '',
-            title: ''
-          }
-        ],
-        page: 1,
-        size: 9,
-        total: 0
-      }
-    },
-    created() {
-      getRequest('/Blog/list/click', {
-        page: this.page,
-        size: this.size
-      }).then(response => {
-        this.blogs = response.data.data.list
-        this.total = (response.data.data.total < this.size) ? response.data.data.total : this.size
-      })
+export default {
+  data() {
+    return {
+      blogs: [
+        {
+          id: '',
+          title: ''
+        }
+      ],
+      page: 1,
+      size: 9,
+      total: 0
     }
+  },
+  created() {
+    getRequest('/Blog/list/click', {
+      page: this.page,
+      size: this.size
+    }).then(response => {
+      this.blogs = response.data.data.list
+      this.total = (response.data.data.total < this.size) ? response.data.data.total : this.size
+    })
   }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -8,9 +8,9 @@ export default {
     name: '',
     add: 1 // 用于刷新评论列表
   },
-  reader:{
-    name:'',
-    email:'',
-    avatar:''
+  reader: {
+    name: '',
+    email: '',
+    avatar: ''
   }
 }

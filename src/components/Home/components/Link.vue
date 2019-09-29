@@ -2,21 +2,25 @@
   <div class="sidebar">
     <div class="sidebar-title"><i class="iconfont icon-link" />&nbsp;友情链接</div>
     <ul class="ul-link">
-      <li v-for="link in links"
-          :key="link.id">
-        <a :href="link.linkUrl"
-           :title="link.linkName"
-           target="_blank">{{ link.linkName }}</a>
+      <li
+        v-for="link in links"
+        :key="link.id"
+      >
+        <a
+          :href="link.linkUrl"
+          :title="link.linkName"
+          target="_blank"
+        >{{ link.linkName }}</a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { getRequest } from "@/utils/api";
+import { getRequest } from '@/utils/api'
 
 export default {
-  data () {
+  data() {
     return {
       links: [
         {
@@ -29,7 +33,7 @@ export default {
       size: 100
     }
   },
-  created () {
+  created() {
     getRequest('/link/list', {
       page: this.page,
       size: this.size

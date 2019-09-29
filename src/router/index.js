@@ -12,7 +12,7 @@ export default new Router({
       name: '登录',
       hidden: true,
       component: () => import('@/components/User/Login')
-    },{
+    }, {
       path: '/logOut',
       name: '登出',
       hidden: true,
@@ -39,7 +39,7 @@ export default new Router({
       // },
       component: () => import('@/components/blog'),
       // 类型转换，否则会将字符串类型的数字传递给blog组件
-      props: (route) => ({blogId: Number(route.params.blogId)})
+      props: (route) => ({ blogId: Number(route.params.blogId) })
     }, {
       path: '/Blog/' + 1,
       alias: '/about'

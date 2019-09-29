@@ -6,16 +6,22 @@
     <p class="blogger-nickname">{{ blogger.nickname }}</p>
     <!--<hr>-->
     <div class="blogger-contact">
-      <a id="qq"
-         target="_blank"
-         title="QQ交流"
-         href="http://wpa.qq.com/msgrd?v=3&uin=1357958736&site=qq&menu=yes"><i class="iconfont icon-qq" /></a>
-      <a id="github"
-         title="Github"
-         href="https://github.com/yhuihu"><i class="iconfont icon-github" /></a>
-      <a id="manage"
-         :href="this.$root.adminUrl"
-         title="后台管理"><i class="iconfont icon-admin" /></a>
+      <a
+        id="qq"
+        target="_blank"
+        title="QQ交流"
+        href="http://wpa.qq.com/msgrd?v=3&uin=1357958736&site=qq&menu=yes"
+      ><i class="iconfont icon-qq" /></a>
+      <a
+        id="github"
+        title="Github"
+        href="https://github.com/yhuihu"
+      ><i class="iconfont icon-github" /></a>
+      <a
+        id="manage"
+        :href="this.$root.adminUrl"
+        title="后台管理"
+      ><i class="iconfont icon-admin" /></a>
     </div>
   </div>
 </template>
@@ -24,7 +30,7 @@
 import { getRequest } from '@/utils/api'
 
 export default {
-  data () {
+  data() {
     return {
       blogger: {
         nickname: '',
@@ -34,15 +40,15 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.init()
   },
   methods: {
-    init () {
+    init() {
       getRequest('/detail', {}).then(response => {
         this.blogger = response.data.data
       }), response => {
-        this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
+        this.$alert('找不到服务器⊙﹏⊙∥!', '失败!')
       }
     }
   }

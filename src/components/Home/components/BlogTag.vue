@@ -2,19 +2,21 @@
   <div class="sidebar tag">
     <div class="sidebar-title"><i class="iconfont icon-tag" />&nbsp;标签</div>
     <ul class="ul-tag">
-      <a v-for="tag in tags"
-         :key="tag.id"
-         href="javascript:void(0)"
-         @click="getBlogListByTag(tag.id)">{{ tag.name }}</a>
+      <a
+        v-for="tag in tags"
+        :key="tag.id"
+        href="javascript:void(0)"
+        @click="getBlogListByTag(tag.id)"
+      >{{ tag.name }}</a>
     </ul>
   </div>
 </template>
 
 <script>
-import { getRequest } from "@/utils/api";
+import { getRequest } from '@/utils/api'
 
 export default {
-  data () {
+  data() {
     return {
       tags: [
         {
@@ -26,7 +28,7 @@ export default {
       size: 999
     }
   },
-  created () {
+  created() {
     getRequest('/blog/tag/list', {
       page: this.page,
       size: this.size
@@ -35,7 +37,7 @@ export default {
     })
   },
   methods: {
-    getBlogListByTag (tagId) {
+    getBlogListByTag(tagId) {
       const state = this.$root.state.blogListState // 通过该变量防止先按标签搜索后按关键词搜索，然后又按相同标签搜索时页面不刷新问题
       if (state !== 1 && state !== -1) { // 如果前面不是按标签搜索的话
         this.$root.state.tagId = tagId

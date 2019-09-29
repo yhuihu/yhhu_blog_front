@@ -2,15 +2,21 @@
   <div class="sidebar">
     <div class="sidebar-title"><i class="iconfont icon-project" />&nbsp;我的项目</div>
     <ul class="ul-project">
-      <li v-for="project in projects"
-          :key="project.id">
+      <li
+        v-for="project in projects"
+        :key="project.id"
+      >
         <a :href="project.url">
-          <img v-if="project.image"
-               :src="project.image"
-               class="img">
-          <img v-else
-               src="@/assets/imgs/project.png"
-               class="img">
+          <img
+            v-if="project.image"
+            :src="project.image"
+            class="img"
+          >
+          <img
+            v-else
+            src="@/assets/imgs/project.png"
+            class="img"
+          >
           {{ project.name }}
         </a>
       </li>
@@ -19,10 +25,10 @@
 </template>
 
 <script>
-import { getRequest } from "@/utils/api";
+import { getRequest } from '@/utils/api'
 
 export default {
-  data () {
+  data() {
     return {
       projects: [
         {
@@ -37,7 +43,7 @@ export default {
       size: 999
     }
   },
-  created () {
+  created() {
     getRequest('/project/list', {
       page: this.page,
       size: this.size

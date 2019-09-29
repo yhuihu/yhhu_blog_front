@@ -1,7 +1,8 @@
 <template>
   <a :class="{'cd-is-visible': visible }" href="#" class="cd-top" @click.prevent="handleClick"><img
     style="width: 48px; height: 48px;"
-    src="./top.png"></a>
+    src="./top.png"
+  ></a>
 </template>
 
 <script>

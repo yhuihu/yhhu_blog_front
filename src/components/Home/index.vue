@@ -5,11 +5,11 @@
       <div class="col-md-8">
 
         <div class="carousel-wrapper">
-          <lb-carousel/>
+          <lb-carousel />
         </div>
         <!-- 文章列表模块 -->
         <div class="blog-list-wrapper">
-          <lb-blog-list/>
+          <lb-blog-list />
         </div>
 
       </div>
@@ -18,27 +18,27 @@
       <div v-if="!isMobile" class="col-md-4">
 
         <div class="blogger-wrapper">
-          <lb-blogger/>
+          <lb-blogger />
         </div>
 
         <div class="profile-wrapper">
-          <lb-profile/>
+          <lb-profile />
         </div>
 
         <div class="blog-tag-wrapper">
-          <lb-blog-tag/>
+          <lb-blog-tag />
         </div>
 
         <div class="sort-wrapper">
-          <lb-sort/>
+          <lb-sort />
         </div>
 
         <div class="project-wrapper">
-          <lb-project/>
+          <lb-project />
         </div>
 
         <div class="link-wrapper">
-          <lb-link/>
+          <lb-link />
         </div>
       </div>
     </div>
