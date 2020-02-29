@@ -37,7 +37,7 @@ export default new Router({
       // meta: {
       //   requireAuth: true,  // 该路由项需要权限校验
       // },
-      component: () => import('@/components/blog'),
+      component: () => import('@/components/Blog'),
       // 类型转换，否则会将字符串类型的数字传递给blog组件
       props: (route) => ({ blogId: Number(route.params.blogId) })
     }, {

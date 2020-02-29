@@ -16,6 +16,7 @@ import { postRequest } from './utils/api'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 window.bus = new Vue()
+Vue.prototype.$bus = window.bus
 
 /* eslint-disable no-new */
 // 可以在此处设置当查看具体博客时查看是否存在读者信息，如果不存在则通过token获取
@@ -60,7 +61,9 @@ new Vue({
     adminUrl: 'http://admin.yhhu.xyz',
     ABOUT_ID: 1,
     userId: 0,
-    loginFormVisible: false
+    loginFormVisible: false,
+    regFormVisible: false,
+    uploadVisible: false
   },
   template: '<App/>'
 })
