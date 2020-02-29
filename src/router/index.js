@@ -16,7 +16,7 @@ export default new Router({
       path: '/logOut',
       name: '登出',
       hidden: true,
-      component: () => import('@/components/User/logOut')
+      component: () => import('@/components/User/LogOut')
     }, {
       path: '/user',
       name: '存储用户信息',
