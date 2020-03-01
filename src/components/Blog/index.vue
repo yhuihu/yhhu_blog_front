@@ -11,6 +11,8 @@
         <lb-comment :blog-id="blogId"/>
       </div>
     </div>
+    <el-footer style="text-align: center;margin-top: 20px;background-color: #24292e;color: lavender;height: 30px">
+      ICP证：<a href="http://www.beian.miit.gov.cn">粤ICP备19094902号</a></el-footer>
   </div>
 </template>
 
