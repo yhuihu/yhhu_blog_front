@@ -78,7 +78,7 @@ export default {
     },
     githubLogin: function() {
       this.loading = true
-      postRequest('/oauth/login/github', {}).then(resp => {
+      postRequest('/user/login/github', {}).then(resp => {
         if (resp.status === 200) {
           // 成功
           if (resp.data.code === 2000) {

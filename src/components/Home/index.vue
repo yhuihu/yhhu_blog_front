@@ -37,9 +37,9 @@
           <lb-project />
         </div>
 
-        <div class="link-wrapper">
-          <lb-link />
-        </div>
+<!--        <div class="link-wrapper">-->
+<!--          <lb-link />-->
+<!--        </div>-->
       </div>
     </div>
     <el-footer style="text-align: center;margin-top: 20px;background-color: #24292e;color: lavender;height: 30px">

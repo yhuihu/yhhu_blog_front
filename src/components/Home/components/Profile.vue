@@ -16,7 +16,7 @@ export default {
     }
   },
   created() {
-    getRequest('/detail', {}).then(response => {
+    getRequest('/user', {}).then(response => {
       this.profile = response.data.data.profile
     })
   }

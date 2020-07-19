@@ -37,11 +37,11 @@ export default {
     }
   },
   created() {
-    getRequest('/Blog/list/click', {
+    getRequest('/blog/sort', {
       page: this.page,
       size: this.size
     }).then(response => {
-      this.blogs = response.data.data.list
+      this.blogs = response.data.data.records
       this.total = (response.data.data.total < this.size) ? response.data.data.total : this.size
     })
   }

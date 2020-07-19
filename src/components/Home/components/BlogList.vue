@@ -90,25 +90,25 @@ export default {
       this.loading = true
       var data
       if (this.state === 0 || ((this.state === 2 || this.state === -2) && !this.keyword)) {
-        data = (await getRequest('/Blog/list', {
+        data = (await getRequest('/blog', {
           page: this.page++,
           size: this.size
         })).data.data
       } else if (this.state === 1 || this.state === -1) {
-        data = (await getRequest('/Blog/list/tag', {
+        data = (await getRequest('/blog/tag', {
           tagId: this.$root.state.tagId,
           page: this.page++,
           size: this.size
         })).data.data
       } else {
-        data = (await getRequest('/Blog/search', {
+        data = (await getRequest('/blog', {
           keyword: this.$root.state.keyword,
           page: this.page++,
           size: this.size
         })).data.data
       }
-      this.isLastPage = data.isLastPage
-      this.blogList = this.blogList.concat(data.list)
+      this.isLastPage = this.page > data.pages
+      this.blogList = this.blogList.concat(data.records)
       this.loading = false
     },
     reset() {

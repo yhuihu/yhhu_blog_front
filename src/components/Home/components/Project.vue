@@ -44,11 +44,11 @@ export default {
     }
   },
   created() {
-    getRequest('/project/list', {
+    getRequest('/project', {
       page: this.page,
       size: this.size
     }).then(response => {
-      this.projects = response.data.data.list
+      this.projects = response.data.data.records
     })
   }
 }

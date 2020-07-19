@@ -29,7 +29,6 @@ router.beforeEach((to, from, next) => {
         if (resp.status === 200) {
           // token查找不到（账户信息被修改）
           if (resp.data.code === 401) {
-            console.log('Token过期')
             localStorage.removeItem('token')
             next({
               path: '/login', // 将跳转的路由path作为参数，登录成功后跳转到该路由
@@ -41,7 +40,6 @@ router.beforeEach((to, from, next) => {
         }
       })
     } else {
-      console.log('token不存在')
       next({
         path: '/login', // 将跳转的路由path作为参数，登录成功后跳转到该路由
         query: { redirect: to.fullPath }

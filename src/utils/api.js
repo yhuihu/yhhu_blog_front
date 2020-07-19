@@ -2,8 +2,6 @@ import axios from 'axios'
 import qs from 'qs'
 
 const service = axios.create({
-  // baseURL: 'http://test.yhhu.xyz/blog',
-  // baseURL: 'http://blog_apis.yhhu.xyz/blog',
   baseURL: process.env.BASE_URL,
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 60000 // request timeout
@@ -24,21 +22,6 @@ service.interceptors.request.use(
     return Promise.reject(err)
   }
 )
-
-// http response 拦截器
-// 第三方登录用
-// service.interceptors.response.use(
-//   response => {
-//     if (response.data.code === 2000) {
-//       //登录成功的时候进行页面跳转
-//       this.$router.push({ path: response.data.data.redirectUrl })
-//     }
-//     return response;
-//   },
-//   error => {
-//     return Promise.reject(error);
-//   }
-// );
 export const postRequest = (url, data) => {
   return service({
     url: url,

@@ -165,21 +165,19 @@ export default {
   },
   methods: {
     fetchData() {
-      getRequest('/Blog/detail', {
-        id: this.blogId
-      }).then(response => {
+      getRequest('/blog/' + this.blogId + '/detail').then(response => {
         this.blog = response.data.data
         this.content = marked(this.blog.content)
       })
     },
     addClick() {
-      postRequest('/Blog/click/add', {
+      postRequest('/blog/click', {
         blogId: this.blogId
       })
     },
     addLike() {
       if (Cookie.get(this.cookieKey)) return
-      postRequest('/Blog/like/add', {
+      postRequest('/blog/like', {
         blogId: this.blogId
       }).then(response => {
         this.blog.likeCount += 1

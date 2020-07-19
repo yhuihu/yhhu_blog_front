@@ -45,11 +45,9 @@ export default {
   },
   methods: {
     init() {
-      getRequest('/detail', {}).then(response => {
+      getRequest('/user', {}).then(response => {
         this.blogger = response.data.data
-      }), response => {
-        this.$alert('找不到服务器⊙﹏⊙∥!', '失败!')
-      }
+      })
     }
   }
 }

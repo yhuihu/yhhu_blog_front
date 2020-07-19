@@ -99,7 +99,7 @@ export default {
     },
     githubLogin: function() {
       this.loading = true
-      postRequest('/oauth/login/github', {}).then(resp => {
+      postRequest('/user/login/github', {}).then(resp => {
         if (resp.status === 200) {
           // 成功
           if (resp.data.code === 2000) {
@@ -116,16 +116,12 @@ export default {
       this.infoVisible = true
     },
     submitComment() {
-      // this.$message({
-      //   message: '该功能正在完善当中.',
-      //   type: 'warning'
-      // });
       if (!this.commentReady) return
       if (this.validateComment()) {
         this.loading = true
         this.info.blogId = this.blogId
         if (this.replyId) this.info.replyCommentId = this.replyId
-        postRequest('/comment/add', this.info).then(response => {
+        postRequest('/comment', this.info).then(response => {
           this.$message({
             message: '评论成功',
             type: 'success'

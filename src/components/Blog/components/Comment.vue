@@ -71,16 +71,19 @@ export default {
       this.$root.state.comment.id = id
     },
     addMore() {
-      this.loading = true
-      getRequest('/comment/list/blog', {
-        blogId: this.blogId,
-        page: this.page++,
-        size: this.size
-      }).then(response => {
-        this.comments = this.comments.concat(response.data.data.list)
-        this.isLastPage = response.data.data.isLastPage
-        this.loading = false
-      })
+      if (!this.isLastPage) {
+        this.loading = true
+        getRequest('/comment', {
+          blogId: this.blogId,
+          page: this.page++,
+          size: this.size
+        }).then(response => {
+          console.log(response)
+          this.comments = this.comments.concat(response.data.data.records)
+          this.isLastPage = this.page > response.data.data.pages
+          this.loading = false
+        })
+      }
     },
     parseHtml(txt) {
       txt = txt.replace(/\</g, '&lt;')

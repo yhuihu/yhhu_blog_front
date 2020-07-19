@@ -29,11 +29,11 @@ export default {
     }
   },
   created() {
-    getRequest('/blog/tag/list', {
+    getRequest('/tag', {
       page: this.page,
       size: this.size
     }).then(response => {
-      this.tags = response.data.data.list
+      this.tags = response.data.data.records
     })
   },
   methods: {

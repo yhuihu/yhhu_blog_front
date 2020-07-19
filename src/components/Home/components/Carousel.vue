@@ -83,11 +83,11 @@ export default {
   },
   methods: {
     init() {
-      getRequest('/carousel/list', {
+      getRequest('/carousel', {
         page: this.page,
         size: this.size
       }).then(response => {
-        this.carouselList = response.data.data.list
+        this.carouselList = response.data.data.records
         this.total = response.data.data.total
       })
     }

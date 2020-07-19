@@ -225,7 +225,7 @@ export default {
     },
     githubLogin: function() {
       this.loading = true
-      postRequest('/oauth/login/github', this.registerForm).then(resp => {
+      postRequest('/user/login/github', this.registerForm).then(resp => {
         if (resp.status === 200) {
           // 成功
           if (resp.data.code === 2000) {
