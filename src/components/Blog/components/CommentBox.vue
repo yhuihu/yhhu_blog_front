@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="comment-box">
-    <form v-if="info.name" class="new-comment">
+    <form v-if="info.id!== ''" class="new-comment">
       <img
         v-if="info.avatar"
         class="avatar"
