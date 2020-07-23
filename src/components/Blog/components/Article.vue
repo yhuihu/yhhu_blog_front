@@ -206,9 +206,6 @@ export default {
 
   .origin-wrapper {
     width: 100%;
-    a {
-      float: right;
-    }
     .origin {
       font-size: 0.75rem;
       font-weight: 500;
