@@ -16,15 +16,13 @@
         :href="blog.originalUrl"
         target="_blank"
         class="origin"
-      >转自{{ blog.originalUrl
-      }}</a>
+      >转自{{ blog.originalUrl }}</a>
       <a
         v-else-if="blog.typeName === '翻译'"
         :href="blog.originalUrl"
         target="_blank"
         class="origin"
-      >译自{{ blog.originalUrl
-      }}</a>
+      >译自{{ blog.originalUrl }}</a>
     </div>
     <div
       class="content markdown-body"
@@ -207,6 +205,7 @@ export default {
   }
 
   .origin-wrapper {
+    width: 100%;
     float: right;
 
     .origin {
