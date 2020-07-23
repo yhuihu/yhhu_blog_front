@@ -206,13 +206,13 @@ export default {
 
   .origin-wrapper {
     width: 100%;
-    float: right;
-
+    a {
+      float: right;
+    }
     .origin {
       font-size: 0.75rem;
       font-weight: 500;
       color: #bcbcbc;
-
       &:hover {
         text-decoration: none;
       }
