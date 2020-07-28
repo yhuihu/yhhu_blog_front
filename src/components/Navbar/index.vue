@@ -43,7 +43,7 @@
             >关于</router-link>
           </li>
           <li
-            v-if="this.$root.userId !== ''"
+            v-if="this.$root.userId"
             class="nav-item"
           >
             <router-link
