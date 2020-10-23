@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import state from './state'
-import ElementUI from 'element-ui'
+import { Footer, Button, Input, Form, FormItem, Dialog } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
@@ -14,7 +14,12 @@ import 'font-awesome/css/font-awesome.min.css'
 import { postRequest } from './utils/api'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.use(Footer)
+Vue.use(Button)
+Vue.use(Input)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Dialog)
 window.bus = new Vue()
 Vue.prototype.$bus = window.bus
 
@@ -41,7 +46,7 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       next({
-        path: '/login', // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        path: '/login', // 将跳转的路由path作为参数ā，登录成功后跳转到该路由
         query: { redirect: to.fullPath }
       })
     }

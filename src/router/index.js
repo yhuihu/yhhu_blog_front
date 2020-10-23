@@ -41,7 +41,7 @@ export default new Router({
       // 类型转换，否则会将字符串类型的数字传递给blog组件
       props: (route) => ({ blogId: Number(route.params.blogId) })
     }, {
-      path: '/Blog/' + 1,
+      path: '/blog/' + 10,
       alias: '/about'
     }
   ]
