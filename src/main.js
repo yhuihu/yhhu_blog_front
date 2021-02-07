@@ -61,7 +61,7 @@ new Vue({
   components: { App },
   data: { // only place where data is not a function
     state,
-    adminUrl: 'http://admin.yhhu.xyz',
+    adminUrl: 'https://admin.jishenwei.top',
     ABOUT_ID: 1,
     userId: 0,
     loginFormVisible: false,
